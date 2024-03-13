@@ -96,24 +96,23 @@ const LoginMessage: React.FC<{
   );
 };
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
   const { styles } = useStyles();
   const intl = useIntl();
 
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    if (userInfo) {
-      flushSync(() => {
-        setInitialState((s) => ({
-          ...s,
-          currentUser: userInfo,
-        }));
-      });
-    }
-  };
+  // const fetchUserInfo = async () => {
+  //   const userInfo = await initialState?.fetchUserInfo?.();
+  //   if (userInfo) {
+  //     flushSync(() => {
+  //       setInitialState((s) => ({
+  //         ...s,
+  //         currentUser: userInfo,
+  //       }));
+  //     });
+  //   }
+  // };
 
   const handleSubmit = async (values: API.LoginParams) => {
     try {
@@ -179,7 +178,7 @@ const Login: React.FC = () => {
             items={[
               {
                 key: 'account',
-                label: '账户密码登录',
+                label: '账户密码注册',
               },
             ]}
           />
@@ -219,6 +218,20 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
+              <ProFormText.Password
+                name="repeatPassword"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined />,
+                }}
+                placeholder="enter password again"
+                rules={[
+                  {
+                    required: true,
+                    message: "password required",
+                  },
+                ]}
+              />
             </>
           )}
 
@@ -227,7 +240,17 @@ const Login: React.FC = () => {
               marginBottom: 24,
             }}
           >
-          
+            <ProFormCheckbox noStyle name="autoLogin">Auto Login</ProFormCheckbox>
+            <a
+              style={{
+                float: 'right',
+              }}
+              href={WAYNE_HUB}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Forgot Password
+            </a>
           </div>
         </LoginForm>
       </div>
@@ -236,4 +259,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Register;
